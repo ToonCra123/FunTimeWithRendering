@@ -1,0 +1,51 @@
+# Ignore build folders
+cmake-build-*/
+build/
+out/
+
+# CLion project files
+.idea/
+*.iml
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio generated files (if any)
+*.vcxproj*
+*.sln
+*.user
+*.opensdf
+*.sdf
+*.ipch
+*.pdb
+
+# Compiled object files and libraries
+*.obj
+*.o
+*.lib
+*.a
+*.dll
+*.exe
+
+# Generated binaries
+*.out
+*.app
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Ignore editor swap files
+*~
+*.swp
+
+# Ignore shader binaries and intermediate outputs
+*.cso
+*.spv
+
+# Ignore anything in external/ if you want to avoid checking in libraries
+external/
