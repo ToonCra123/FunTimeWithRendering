@@ -4,11 +4,12 @@ project(opengl_renderer)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add glad source file
+# ---- GLAD ----
 add_library(glad STATIC external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
-add_executable(opengl_renderer
+# ---- Source files ----
+set(SOURCES
         main.cpp
         src/Graphics.cpp
         src/Shader.cpp
@@ -17,20 +18,48 @@ add_executable(opengl_renderer
         src/App.h
 )
 
-# Include GLFW and glad headers
+add_executable(opengl_renderer ${SOURCES})
+
 target_include_directories(opengl_renderer PRIVATE
         external/glfw/include
         external/glad/include
 )
 
-# Link to glfw3.lib, glad, and system OpenGL
-target_link_libraries(opengl_renderer
-        PRIVATE
-        glad
-        ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/lib-vc2022/glfw3.lib
-        opengl32
-)
-
+# ---- Platform-specific linking ----
 if (MSVC)
+    # Windows / MSVC settings
+    target_link_libraries(opengl_renderer
+            PRIVATE
+            glad
+            ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/lib-vc2022/glfw3.lib
+            opengl32
+    )
+
+    # Build as Windows GUI app (no console window)
     set_target_properties(opengl_renderer PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+
+    # Define GLFW_STATIC if you are linking the static glfw library
+    target_compile_definitions(opengl_renderer PRIVATE GLFW_STATIC)
+
+    # Optionally: Use static MSVC runtime (optional, see explanation)
+    # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+elseif(APPLE)
+    # macOS settings
+
+    # Find system GLFW (assuming installed via brew or otherwise)
+    find_package(glfw3 3.3 REQUIRED)
+
+    target_link_libraries(opengl_renderer
+            PRIVATE
+            glad
+            glfw
+            "-framework OpenGL"
+            "-framework Cocoa"
+            "-framework IOKit"
+            "-framework CoreVideo"
+    )
+
+else()
+    message(WARNING "Unsupported platform. You may need to configure libraries yourself.")
 endif()
