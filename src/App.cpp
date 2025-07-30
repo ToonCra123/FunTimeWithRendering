@@ -4,8 +4,11 @@
 
 #include "App.h"
 
+#include "Input.h"
+
 
 App::App() : window(1920, 1080, "Kys") {
+    Input::Initialize(window.GetWindow());
 }
 
 void App::Run() {

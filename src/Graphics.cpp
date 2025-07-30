@@ -11,8 +11,7 @@
 #include "Graphics.h"
 
 
-Graphics::Graphics(GLFWwindow* window) {
-
+Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
     mWindow = window;
     if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
@@ -20,18 +19,18 @@ Graphics::Graphics(GLFWwindow* window) {
         exit(-1);
     }
 
-    sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.frag");
+    sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/cool_fragment.glsl");
 
     // positions
     float vertices[] = {
         -0.5f, -0.5f, -0.5f, // 0
-         0.5f, -0.5f, -0.5f, // 1
-         0.5f,  0.5f, -0.5f, // 2
-        -0.5f,  0.5f, -0.5f, // 3
-        -0.5f, -0.5f,  0.5f, // 4
-         0.5f, -0.5f,  0.5f, // 5
-         0.5f,  0.5f,  0.5f, // 6
-        -0.5f,  0.5f,  0.5f  // 7
+        0.5f, -0.5f, -0.5f, // 1
+        0.5f, 0.5f, -0.5f, // 2
+        -0.5f, 0.5f, -0.5f, // 3
+        -0.5f, -0.5f, 0.5f, // 4
+        0.5f, -0.5f, 0.5f, // 5
+        0.5f, 0.5f, 0.5f, // 6
+        -0.5f, 0.5f, 0.5f // 7
     };
 
     unsigned int indices[] = {
@@ -82,6 +81,7 @@ Graphics::~Graphics() {
 }
 
 void Graphics::DoFrame() {
+    camera.Update();
 
     int width, height;
     glfwGetFramebufferSize(mWindow, &width, &height);
@@ -98,7 +98,7 @@ void Graphics::DoFrame() {
     float timeValue = (float)glfwGetTime(); // GLFW returns time in seconds since init
 
     glm::mat4 model = glm::rotate(glm::mat4(1.0f), static_cast<float>(glfwGetTime()), glm::vec3(0.5f, 1.0f, 0.0f));
-    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -3.0f));
+    glm::mat4 view = camera.GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width)/height, 0.1f, 100.0f);
 
     unsigned int modelLoc = glGetUniformLocation(sProgram->GetProgram(), "model");

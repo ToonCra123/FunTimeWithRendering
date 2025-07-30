@@ -5,6 +5,7 @@
 #pragma once
 #include <memory>
 
+#include "Camera.h"
 #include "Shader.h"
 #include "GLFW/glfw3.h"
 
@@ -17,4 +18,5 @@ private:
     GLFWwindow* mWindow;
     unsigned int VAO, VBO, EBO;
     std::unique_ptr<Shaders> sProgram;
+    Camera camera;
 };
