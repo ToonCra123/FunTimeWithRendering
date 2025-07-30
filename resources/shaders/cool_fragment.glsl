@@ -8,8 +8,6 @@ float random (in vec2 _st) {
                  43758.5453123);
 }
 
-// Based on Morgan McGuire @morgan3d
-// https://www.shadertoy.com/view/4dS3Wd
 float noise (in vec2 _st) {
     vec2 i = floor(_st);
     vec2 f = fract(_st);

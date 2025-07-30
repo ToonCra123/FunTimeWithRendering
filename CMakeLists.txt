@@ -8,6 +8,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(glad STATIC external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
+# ---- GLM -----
+include(FetchContent)
+
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY	https://github.com/g-truc/glm.git
+        GIT_TAG 	bf71a834948186f4097caa076cd2663c69a10e1e #refs/tags/1.0.1
+)
+
+FetchContent_MakeAvailable(glm)
+
 # ---- Source files ----
 set(SOURCES
         main.cpp
@@ -31,6 +42,7 @@ if (MSVC)
     target_link_libraries(opengl_renderer
             PRIVATE
             glad
+            glm::glm
             ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/lib-vc2022/glfw3.lib
             opengl32
     )
@@ -53,6 +65,7 @@ elseif(APPLE)
     target_link_libraries(opengl_renderer
             PRIVATE
             glad
+            glm::glm
             glfw
             "-framework OpenGL"
             "-framework Cocoa"
