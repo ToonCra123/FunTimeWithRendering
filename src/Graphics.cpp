@@ -62,7 +62,14 @@ void Graphics::DoFrame() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Draw
+    // Get uniform location once (after linking shaders)
+    GLint timeLocation = glGetUniformLocation(sProgram->GetProgram(), "u_time");
+
+    // In your render loop, update the uniform every frame
+    float timeValue = (float)glfwGetTime(); // GLFW returns time in seconds since init
+
     glUseProgram(sProgram->GetProgram());
+    glUniform1f(timeLocation, timeValue);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
