@@ -20,25 +20,35 @@ Graphics::Graphics(GLFWwindow* window) {
     sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.glsl");
 
     float vertices[] = {
-        0.0f,  0.5f, 0.0f, // top
-       -0.5f, -0.5f, 0.0f, // left
-        0.5f, -0.5f, 0.0f  // right
-   };
+        // positions        // tex coords (optional)
+        -1.0f,  1.0f, 0.0f,  // top-left
+        -1.0f, -1.0f, 0.0f,  // bottom-left
+         1.0f, -1.0f, 0.0f,  // bottom-right
+         1.0f,  1.0f, 0.0f   // top-right
+    };
+
+    unsigned int indices[] = {
+        0, 1, 2,   // first triangle
+        0, 2, 3    // second triangle
+    };
+
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    // Bind VAO first, then bind and set VBO
     glBindVertexArray(VAO);
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // Vertex attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void *>(nullptr));
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
 
@@ -54,5 +64,5 @@ void Graphics::DoFrame() {
     // Draw
     glUseProgram(sProgram->GetProgram());
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

@@ -5,7 +5,7 @@
 #include "App.h"
 
 
-App::App() : window(800, 600, "Kys") {
+App::App() : window(1920, 1080, "Kys") {
 }
 
 void App::Run() {
