@@ -42,7 +42,7 @@ if (MSVC)
     target_compile_definitions(opengl_renderer PRIVATE GLFW_STATIC)
 
     # Optionally: Use static MSVC runtime (optional, see explanation)
-    # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 elseif(APPLE)
     # macOS settings
