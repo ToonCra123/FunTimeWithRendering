@@ -22,3 +22,15 @@ Input::Input(GLFWwindow* window)
 bool Input::GetKeyDown(int keycode) const {
     return glfwGetKey(mWindow, keycode) == GLFW_PRESS;
 }
+
+void Input::SetLockCursor(bool lockCursor) {
+    if (lockCursor) {
+        glfwSetInputMode(GetInstance()->mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    } else {
+        glfwSetInputMode(GetInstance()->mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+}
+
+void Input::GetCursorPos(double &x, double &y) {
+    glfwGetCursorPos(GetInstance()->mWindow, &x, &y);
+}

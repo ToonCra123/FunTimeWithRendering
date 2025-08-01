@@ -20,13 +20,49 @@ glm::mat4 Camera::GetViewMatrix() const {
     return glm::lookAt(Position, Position + Front, Up);
 }
 
-void Camera::Update() {
+const float speed = 2.5f;
+const float sensitivity = 0.1f;
+double lastX = 0.0, lastY = 0.0;
+bool firstMouse = true;
+
+void Camera::Update(double deltaTime) {
     if (Input::GetInstance()->GetKeyDown(GLFW_KEY_W)) {
-        Position += Front;
+        Position += Front * speed * static_cast<float>(deltaTime);
     }
     if (Input::GetInstance()->GetKeyDown(GLFW_KEY_S)) {
-        Position -= Front;
+        Position -= Front * speed * static_cast<float>(deltaTime);
     }
+    if (Input::GetInstance()->GetKeyDown(GLFW_KEY_D)) {
+        Position += Right * speed * static_cast<float>(deltaTime);
+    }
+    if (Input::GetInstance()->GetKeyDown(GLFW_KEY_A)) {
+        Position -= Right * speed * static_cast<float>(deltaTime);
+    }
+
+    // Mouse Controls
+    double x, y;
+    Input::GetCursorPos(x, y);
+
+    if (firstMouse) {
+        lastX = x;
+        lastY = y;
+        firstMouse = false;
+    }
+
+    double offsetX = x - lastX;
+    double offsetY = lastY - y; // reversed: y-coordinates go down
+
+    lastX = x;
+    lastY = y;
+
+    offsetX *= sensitivity;
+    offsetY *= sensitivity;
+
+    Yaw   += static_cast<float>(offsetX);
+    Pitch += static_cast<float>(offsetY);
+
+    UpdateCameraVectors();
+
 }
 
 

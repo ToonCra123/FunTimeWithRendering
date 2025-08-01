@@ -12,6 +12,11 @@ public:
 
     bool GetKeyDown(int keycode) const;
 
+    static void SetLockCursor(bool lockCursor);
+
+    /// @returns cursor pos in input variables
+    static void GetCursorPos(double &x, double &y);
+
 private:
     explicit Input(GLFWwindow* window);  // private constructor
     GLFWwindow* mWindow;

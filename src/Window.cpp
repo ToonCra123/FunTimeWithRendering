@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "Input.h"
+
 
 Window::Window(int width, int height, const char *title) {
     if (!glfwInit()) {
@@ -25,6 +27,8 @@ Window::Window(int width, int height, const char *title) {
         exit(-1);
     }
     glfwMakeContextCurrent(window);
+
+    Input::Initialize(window);
 
     gfx = std::make_unique<Graphics>(window);
 }

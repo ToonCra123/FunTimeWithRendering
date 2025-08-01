@@ -10,6 +10,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Graphics.h"
 
+#include "Input.h"
+
 
 Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
@@ -19,7 +21,7 @@ Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm:
         exit(-1);
     }
 
-    sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/cool_fragment.glsl");
+    sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.frag");
 
     // positions
     float vertices[] = {
@@ -72,6 +74,8 @@ Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm:
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
+
+    Input::SetLockCursor(true);
 }
 
 Graphics::~Graphics() {
@@ -80,8 +84,15 @@ Graphics::~Graphics() {
     glDeleteBuffers(1, &EBO);
 }
 
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
 void Graphics::DoFrame() {
-    camera.Update();
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    camera.Update(deltaTime);
 
     int width, height;
     glfwGetFramebufferSize(mWindow, &width, &height);
@@ -97,7 +108,7 @@ void Graphics::DoFrame() {
     // In your render loop, update the uniform every frame
     float timeValue = (float)glfwGetTime(); // GLFW returns time in seconds since init
 
-    glm::mat4 model = glm::rotate(glm::mat4(1.0f), static_cast<float>(glfwGetTime()), glm::vec3(0.5f, 1.0f, 0.0f));
+    glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 view = camera.GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width)/height, 0.1f, 100.0f);
 

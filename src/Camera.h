@@ -16,7 +16,7 @@ public:
 
     glm::mat4 GetViewMatrix() const;
 
-    void Update();
+    void Update(double deltaTime);
 private:
     float Yaw;
     float Pitch;

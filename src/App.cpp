@@ -7,7 +7,7 @@
 #include "Input.h"
 
 
-App::App() : window(1920, 1080, "Kys") {
+App::App() : window(1920, 1080, "Cool Program") {
     Input::Initialize(window.GetWindow());
 }
 
