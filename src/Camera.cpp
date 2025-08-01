@@ -25,6 +25,7 @@ const float sensitivity = 0.1f;
 double lastX = 0.0, lastY = 0.0;
 bool firstMouse = true;
 
+// Basic Camera Controlls
 void Camera::Update(double deltaTime) {
     if (Input::GetInstance()->GetKeyDown(GLFW_KEY_W)) {
         Position += Front * speed * static_cast<float>(deltaTime);
@@ -37,6 +38,12 @@ void Camera::Update(double deltaTime) {
     }
     if (Input::GetInstance()->GetKeyDown(GLFW_KEY_A)) {
         Position -= Right * speed * static_cast<float>(deltaTime);
+    }
+    if (Input::GetInstance()->GetKeyDown(GLFW_KEY_SPACE)) {
+        Position += glm::vec3(0.0f, 1.0f, 0.0f) * speed * static_cast<float>(deltaTime);
+    }
+    if (Input::GetInstance()->GetKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+        Position += glm::vec3(0.0f, -1.0f, 0.0f) * speed * static_cast<float>(deltaTime);
     }
 
     // Mouse Controls

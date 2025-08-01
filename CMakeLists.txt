@@ -31,6 +31,8 @@ set(SOURCES
         src/Camera.h
         src/Input.cpp
         src/Input.h
+        src/Objects/Object.cpp
+        src/Objects/Object.h
 )
 
 add_executable(opengl_renderer ${SOURCES})
