@@ -12,7 +12,7 @@ out vec4 FragColor;
 
 void main() {
     // Ambient
-    float ambientStrength = 0.1;
+    float ambientStrength = 0.3;
     vec3 ambient = ambientStrength * lightColor;
 
     // Diffuse
