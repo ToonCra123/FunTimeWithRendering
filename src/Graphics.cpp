@@ -11,9 +11,12 @@
 #include "Graphics.h"
 
 #include "Input.h"
+#include "Light.h"
 #include "Objects/Object.h"
 
+struct Light;
 std::unique_ptr<Cube> cube;
+std::unique_ptr<Light> light;
 
 
 Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
@@ -27,6 +30,9 @@ Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm:
     sProgram = std::make_unique<Shaders>("../resources/shaders/vertex.glsl", "../resources/shaders/fragment.frag");
 
     cube = std::make_unique<Cube>(sProgram.get(), glm::vec3(0.1f, 0.5f, 0.7f));
+    light = std::make_unique<Light>();
+    light->color = glm::vec3(1.0f, 1.0f, 1.0f);
+    light->position = glm::vec3(1.2f, 1.0f, 2.0f);
 
     glEnable(GL_CULL_FACE);
 
@@ -63,5 +69,5 @@ void Graphics::DoFrame() {
     glm::mat4 view = camera.GetViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width)/height, 0.1f, 100.0f);
 
-    cube->render(projection, view, camera.Position, timeValue);
+    cube->render(projection, view, camera.Position, timeValue, *(light));
 }

@@ -7,6 +7,7 @@
 #include "../Shader.h"
 #include <glm/glm.hpp>
 
+#include "../Light.h"
 #include "glad/glad.h"
 
 class Cube {
@@ -15,7 +16,7 @@ public:
 	~Cube();
 
 	// void Update();
-	void render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float timeval);
+	void render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float& timeval, Light& light);
 
 private:
 

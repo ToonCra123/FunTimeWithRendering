@@ -114,7 +114,7 @@ Cube::~Cube() {
     glDeleteBuffers(1, &EBO);
 }
 
-void Cube::render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float timeval) {
+void Cube::render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float& timeval, Light& light) {
     unsigned int timeLocation = glGetUniformLocation(mProgram->GetProgram(), "u_time");
 
     unsigned int modelLoc = glGetUniformLocation(mProgram->GetProgram(), "model");
@@ -128,12 +128,10 @@ void Cube::render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, flo
 
 
     // set light position (world space)
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightPos"), 1, &lightPos[0]);
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightPos"), 1, &light.position[0]);
 
     // set light color and object color
-    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
-    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightColor"), 1, &lightColor[0]);
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightColor"), 1, &light.color[0]);
     glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "objectColor"), 1, &objectColor[0]);
 
     // view position (camera pos)
