@@ -16,7 +16,6 @@ public:
     void DoFrame();
 private:
     GLFWwindow* mWindow;
-    unsigned int VAO, VBO, EBO;
     std::unique_ptr<Shaders> sProgram;
     Camera camera;
 };

@@ -33,6 +33,8 @@ set(SOURCES
         src/Input.h
         src/Objects/Object.cpp
         src/Objects/Object.h
+        src/Light.cpp
+        src/Light.h
 )
 
 add_executable(opengl_renderer ${SOURCES})

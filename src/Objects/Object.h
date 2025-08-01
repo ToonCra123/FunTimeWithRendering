@@ -11,19 +11,21 @@
 
 class Cube {
 public:
-	Cube(const Shaders &mProgram, const glm::vec3 &color);
+	Cube(Shaders* mProgram, const glm::vec3 &color);
 	~Cube();
 
 	// void Update();
-	void render();
+	void render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float timeval);
 
 private:
 
-	glm::mat4 model;
+	glm::mat4 model{};
 
-	Shaders mProgram;
+	Shaders* mProgram;
 
 	glm::vec3 objectColor;
 	GLuint VAO, VBO, EBO;
+
+	unsigned int indeciesCount;
 };
 

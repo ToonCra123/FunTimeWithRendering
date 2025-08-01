@@ -4,8 +4,10 @@
 
 #include "Object.h"
 
+#include <glm/gtc/type_ptr.hpp>
 
-Cube::Cube(const Shaders &mProgram, const glm::vec3 &color) : mProgram(mProgram), objectColor(color) {
+
+Cube::Cube(Shaders* mProgram, const glm::vec3 &color) : mProgram(mProgram), objectColor(color) {
 	   VAO = VBO = EBO = 0;
 
 	   // positions
@@ -74,6 +76,7 @@ Cube::Cube(const Shaders &mProgram, const glm::vec3 &color) : mProgram(mProgram)
        20,21,22,
        22,23,20
     };
+    indeciesCount = sizeof(indices) / sizeof(unsigned int);
 
 
     glGenVertexArrays(1, &VAO);
@@ -111,6 +114,37 @@ Cube::~Cube() {
     glDeleteBuffers(1, &EBO);
 }
 
-void Cube::render() {
+void Cube::render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float timeval) {
+    unsigned int timeLocation = glGetUniformLocation(mProgram->GetProgram(), "u_time");
 
+    unsigned int modelLoc = glGetUniformLocation(mProgram->GetProgram(), "model");
+    unsigned int viewLoc = glGetUniformLocation(mProgram->GetProgram(), "view");
+    unsigned int projLoc = glGetUniformLocation(mProgram->GetProgram(), "projection");
+
+    glUseProgram(mProgram->GetProgram());
+
+
+    glUniform1f(timeLocation, timeval);
+
+
+    // set light position (world space)
+    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightPos"), 1, &lightPos[0]);
+
+    // set light color and object color
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "lightColor"), 1, &lightColor[0]);
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "objectColor"), 1, &objectColor[0]);
+
+    // view position (camera pos)
+    glm::vec3 viewPos = camPos;
+    glUniform3fv(glGetUniformLocation(mProgram->GetProgram(), "viewPos"), 1, &viewPos[0]);
+
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, indeciesCount, GL_UNSIGNED_INT, nullptr);
+    glBindVertexArray(0);
 }
