@@ -20,7 +20,7 @@ public:
 
 private:
 
-	glm::mat4 model{};
+	glm::mat4 model;
 
 	Shaders* mProgram;
 
@@ -30,3 +30,20 @@ private:
 	unsigned int indeciesCount;
 };
 
+class Icosphere {
+public:
+	Icosphere(Shaders* mProgram, const glm::vec3 &color);
+	~Icosphere();
+
+	void render(glm::mat4 &projection, glm::mat4 &view, glm::vec3 &camPos, float& timeval, Light& light);
+
+private:
+	glm::mat4 model;
+
+	Shaders* mProgram;
+
+	glm::vec3 objectColor;
+	GLuint VAO, VBO, EBO;
+
+	unsigned int indeciesCount;
+};
