@@ -23,5 +23,7 @@ private:
     glm::vec3 Right;
     glm::vec3 WorldUp;
 
+    bool locked = true;
+
     void UpdateCameraVectors();
 };

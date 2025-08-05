@@ -12,6 +12,8 @@ public:
 
     bool GetKeyDown(int keycode) const;
 
+    bool GetKeyUp(int keycode) const;
+
     static void SetLockCursor(bool lockCursor);
 
     /// @returns cursor pos in input variables

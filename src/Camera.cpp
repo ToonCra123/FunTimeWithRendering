@@ -46,6 +46,11 @@ void Camera::Update(double deltaTime) {
         Position += glm::vec3(0.0f, -1.0f, 0.0f) * speed * static_cast<float>(deltaTime);
     }
 
+    if (Input::GetInstance()->GetKeyDown(GLFW_KEY_ESCAPE) && locked) {
+        locked = false;
+        Input::SetLockCursor(false);
+    }
+
     // Mouse Controls
     double x, y;
     Input::GetCursorPos(x, y);
