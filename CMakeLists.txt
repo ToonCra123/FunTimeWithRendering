@@ -35,6 +35,14 @@ set(SOURCES
         src/Objects/Object.h
         src/Light.cpp
         src/Light.h
+        src/level/chunk/Chunk.cpp
+        src/level/chunk/Chunk.h
+        src/level/block/Blocks.cpp
+        src/level/block/Blocks.h
+        src/level/chunk/ChunkRenderer.cpp
+        src/level/chunk/ChunkRenderer.h
+        src/level/Positions.cpp
+        src/level/Positions.h
 )
 
 add_executable(opengl_renderer ${SOURCES})

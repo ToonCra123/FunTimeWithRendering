@@ -39,8 +39,8 @@ Graphics::Graphics(GLFWwindow* window): camera(glm::vec3(0.0f, 0.0f, 3.0f), glm:
     Input::SetLockCursor(true);
 }
 
-Graphics::~Graphics() {
-}
+// Default for now I guess
+Graphics::~Graphics() = default;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
